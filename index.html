@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas - Supabase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center font-sans">
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800 text-center">Mis Tareas</h1>
+        
+        <form id="todo-form" class="flex gap-2 mb-6">
+            <input type="text" id="task-input" placeholder="Nueva tarea..." required
+                   class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" 
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                Agregar
+            </button>
+        </form>
+
+        <ul id="todo-list" class="space-y-3">
+            <li class="text-center text-gray-500 text-sm">Cargando tareas...</li>
+        </ul>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
