@@ -1,7 +1,9 @@
 // 1. Inicializar Supabase (Reemplaza con tus datos)
 const SUPABASE_URL = 'https://xafcfbxlyuifjijskcxi.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhhZmNmYnhseXVpZmppanNrY3hpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMTgwOTgsImV4cCI6MjA4OTc5NDA5OH0.9Yw3rdJYln6LHIbp_9O3UUF9f25WHOfc335lNqaAWmA';
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// SOLUCIÓN: Cambiamos el nombre de la constante a "db" para evitar el choque
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // 2. Referencias del DOM
 const todoForm = document.getElementById('todo-form');
@@ -10,7 +12,7 @@ const todoList = document.getElementById('todo-list');
 
 // 3. Obtener y mostrar las tareas (READ)
 async function fetchTodos() {
-    const { data, error } = await supabase
+    const { data, error } = await db
         .from('tareas')
         .select('*')
         .order('created_at', { ascending: false });
@@ -20,7 +22,7 @@ async function fetchTodos() {
         return;
     }
 
-    todoList.innerHTML = ''; // Limpiar lista
+    todoList.innerHTML = ''; 
     
     if (data.length === 0) {
         todoList.innerHTML = '<li class="text-center text-gray-500 text-sm">No hay tareas pendientes.</li>';
@@ -54,13 +56,13 @@ todoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const texto = taskInput.value;
 
-    const { error } = await supabase
+    const { error } = await db
         .from('tareas')
         .insert([{ texto_tarea: texto }]);
 
     if (!error) {
-        taskInput.value = ''; // Limpiar input
-        fetchTodos(); // Recargar lista
+        taskInput.value = ''; 
+        fetchTodos(); 
     } else {
         console.error('Error al agregar:', error);
     }
@@ -68,7 +70,7 @@ todoForm.addEventListener('submit', async (e) => {
 
 // 5. Marcar como completada/pendiente (UPDATE)
 async function toggleTodo(id, estadoActual) {
-    const { error } = await supabase
+    const { error } = await db
         .from('tareas')
         .update({ completada: !estadoActual })
         .eq('id', id);
@@ -78,7 +80,7 @@ async function toggleTodo(id, estadoActual) {
 
 // 6. Eliminar una tarea (DELETE)
 async function deleteTodo(id) {
-    const { error } = await supabase
+    const { error } = await db
         .from('tareas')
         .delete()
         .eq('id', id);
